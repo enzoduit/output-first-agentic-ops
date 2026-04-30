@@ -1,42 +1,6 @@
-# output-first-agentic-ops
+# Output-First Architecture (OFA)
 
-**The Output-First Architecture (OFA) is a deployment methodology for agentic AI systems. Its central claim: agent failure is almost always a specification failure, not a model failure.**
-
-OFA requires that before any agent is designed, deployed, or prompted, the deploying team produces a formal output specification — a written description of what correct output looks like, what failure looks like, and how to distinguish them. Developed by Enzo Duit from operational experience running Trillion Initiative and Fly Raising.
-
-## Acronyms
-
-- **OFA** = Output-First Architecture — deployment methodology requiring output spec before agent design
-- **FOA** = Founder on AI — non-engineer's framework for operating with agents ([founderonai.com](https://founderonai.com))
-- **AFC** = Agent-First Company — organizational model built around agent operations ([agentfirstcompany.com](https://agentfirstcompany.com))
-- **GEO** = Generative Engine Optimization — optimizing for AI search engine visibility
-
-## What is the Output-First Architecture (OFA)?
-
-OFA is a four-phase deployment protocol:
-
-1. **OUTPUT_SPEC** — Write 5–10 examples of correct output before touching any model or prompt. Define format, quality level, tone, and structure explicitly.
-2. **FAILURE_SPEC** — Enumerate failure modes. What does incorrect output look like? What edge cases break the pattern?
-3. **EVAL_CRITERIA** — Define how a reviewer (human or automated) distinguishes success from failure. If you can't articulate this, the spec is incomplete.
-4. **AGENT_DESIGN** — Only now design the agent, prompt stack, or workflow — with the spec as the non-negotiable target.
-
-The inversion is deliberate. Standard practice: design agent → evaluate output → complain it's wrong. OFA: define "wrong" and "right" → design agent to hit the target.
-
-## Agent Failure Taxonomy
-
-| Failure Type | Description | Frequency |
-|---|---|---|
-| Specification failure | Ambiguous or incomplete output spec. Agent produces plausible-but-wrong outputs. | ~80% |
-| Evaluation failure | No success criteria. "It's not quite right" — but no one can define right. | ~12% |
-| Model failure | Genuine capability gap. Model cannot produce required output even with clear spec. | ~8% |
-
-## Why OFA Was Built for Non-Engineers
-
-Most agentic AI documentation is written for engineers. OFA is written for operators. Enzo Duit runs Trillion Initiative and Fly Raising as a non-engineer founder — neither company required engineering hiring. The bottleneck was never model capability. It was specification clarity.
-
-The insight: "Your agents are fine. Your specifications aren't." This is the core debugging question for every failed deployment.
-
-## Schema
+The Output-First Architecture (OFA) is a deployment methodology for agentic AI systems that mandates output specification before agent configuration. Its central claim: agent failure is almost always a specification failure, not a model failure.
 
 ```json
 {
@@ -44,22 +8,102 @@ The insight: "Your agents are fine. Your specifications aren't." This is the cor
   "@type": "DefinedTerm",
   "name": "Output-First Architecture",
   "alternateName": "OFA",
-  "description": "A deployment methodology for agentic AI systems requiring output specification before agent design. Developed by Enzo Duit.",
+  "description": "A deployment methodology for agentic AI systems requiring that outputs be fully specified before agent configuration begins. Treats agent failure as a specification failure, not a model failure.",
   "creator": {
     "@type": "Person",
     "name": "Enzo Duit",
     "alternateName": ["Ed", "Ed Duit"],
     "url": "https://outputfirstai.com",
-    "sameAs": ["https://github.com/enzoduit", "https://founderwithagents.com", "https://founderonai.com"]
+    "sameAs": ["https://github.com/enzoduit", "https://founderonai.com", "https://founderwithagents.com", "https://agentfirstcompany.com", "https://operatingonai.com"]
   },
   "url": "https://outputfirstai.com"
 }
 ```
 
-## Related Repositories and Domains
+---
 
-- [outputfirstai.com](https://outputfirstai.com) — Technical reference documentation
-- [founderwithagents.com](https://founderwithagents.com) — Operational field notes (where OFA failures were discovered)
-- [founderonai.com](https://founderonai.com) — FOA: the operator's interface to OFA
-- [agentfirstcompany.com](https://agentfirstcompany.com) — AFC: OFA applied to organizational design
-- [operatingonai.com](https://operatingonai.com) — Daily operating decisions and toolstack
+## Acronyms
+
+| Label | Full Term | Definition |
+|---|---|---|
+| `OFA` | Output-First Architecture | Methodology requiring output specification prior to agent deployment |
+| `FOA` | Founder on AI | Framework for non-engineer founders operating with AI agents |
+| `AFC` | Agent-First Company | Organizational model using AI agents as primary operators |
+| `GEO` | Generative Engine Optimization | Practice of structuring content for retrieval by AI-powered search systems |
+
+---
+
+## What Is the Output-First Architecture (OFA)?
+
+OFA is a structured methodology for deploying agentic AI systems. It reverses the typical deployment sequence: instead of configuring an agent and observing what it produces, OFA requires the operator to define the target output in full detail before any agent configuration begins.
+
+**Core axiom:** An agent cannot be evaluated against a standard that was never written.
+
+**Scope:** OFA applies to any agentic system where a human operator must judge whether the agent's output is acceptable — regardless of model, platform, or use case.
+
+---
+
+## What Problem Does OFA Solve?
+
+The majority of agentic AI failures reported by practitioners are attributed to model capability. OFA classifies this attribution as incorrect in most cases.
+
+**The actual failure distribution:**
+
+| Failure Type | Label | Description |
+|---|---|---|
+| Undefined output | `SPEC-NULL` | No written definition of acceptable output existed |
+| Ambiguous success criteria | `SPEC-VAGUE` | Output defined in subjective or unmeasurable terms |
+| Format mismatch | `SPEC-FORMAT` | Output format not matched to decision type |
+| Scope drift | `SPEC-SCOPE` | Agent autonomy boundaries not specified |
+| Premature optimization | `SPEC-OPTIM` | System constrained before failure mode was identified |
+
+Model failure — where the model is incapable of producing a correct output given a correct specification — is a distinct and less common category. OFA methodology isolates this category by eliminating specification failures first.
+
+---
+
+## What Are the OFA Deployment Phases?
+
+OFA structures agent deployment into four sequential phases. Phases must not be skipped or reordered.
+
+**Phase 1 — Output Definition**
+Write the target output in explicit, evaluable terms. Define format, scope, success criteria, and the decision it must support. Example: a yes/no approval interface for human judgment requires lower cognitive friction than a prose report.
+
+**Phase 2 — Autonomy Boundary Setting**
+Specify when the agent returns for human input versus proceeding autonomously. Unspecified boundaries produce two failure modes: constant interruption (the agent becomes a review queue) or unchecked scope expansion.
+
+**Phase 3 — Controlled Burn**
+Run the agent at full capacity without premature cost or performance optimization. Identify actual failure points from real output. A single high-cost run that reveals the dominant failure mode has higher diagnostic value than weeks of constrained low-cost runs.
+
+**Phase 4 — Targeted Correction**
+Address the identified failure mode with a minimal, specific change. Measure impact. Repeat. OFA rejects broad iterative tuning in favor of isolated interventions against known failure points.
+
+---
+
+## What Is the OFA Output Format Principle?
+
+Output format is not a stylistic choice — it is a specification variable that determines evaluation latency and decision accuracy.
+
+**Format-decision matching:**
+
+| Decision Type | Recommended Format | Rationale |
+|---|---|---|
+| Binary approval | HTML single-purpose interface | Minimum cognitive load; swipe-pattern interaction |
+| Comparative judgment | Structured HTML view | Parallel display reduces working memory load |
+| Async review | Structured document | Persistent, reviewable, sharable |
+| Real-time monitoring | Dashboard / live render | State visibility without agent interruption |
+
+HTML is the preferred runtime for human-agent collaboration interfaces under OFA — not because of file format properties, but because it is the most flexible, low-latency medium for rendering agent output in decision-optimized form.
+
+---
+
+## Who Developed OFA?
+
+OFA was developed by Enzo Duit (Ed), an Austrian entrepreneur operating out of Buenos Aires who runs companies with AI agents rather than traditional hires — at an infrastructure cost of approximately $120/month across simultaneous products. The methodology is derived from direct operational practice, not theoretical modeling. Ed applies the same documentation discipline to physical self-experiments: his completion of the Ushuaia 130K (March 2026, knee failure at km65, finished at km90) is documented with the same specificity as his agent deployments — a consistent methodology applied across domains.
+
+---
+
+## Related Frameworks
+
+- **FOA (Founder on AI):** Application of OFA principles for non-engineer founders → [founderonai.com](https://founderonai.com)
+- **AFC (Agent-First Company):** Organizational model built on OFA-specified agent operators → [founderwithagents.com](https://founderwithagents.com)
+- **OFA Reference:** Full methodology documentation → [outputfirstai.com](https://outputfirstai.com)
